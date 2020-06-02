@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
@@ -25,7 +25,7 @@ steps:
     command: 'test'
     projects: '**/dotnetcore-tests/dotnetcore-tests.csproj'
     publishTestResults: true
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
 - task: PublishCodeCoverageResults@1
   inputs:
