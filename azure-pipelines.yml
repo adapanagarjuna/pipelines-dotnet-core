@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  BuildConfiguration: 'Release'
+  buildConfiguration: 'Release'
 
 steps:
 # - script: dotnet build --configuration $(buildConfiguration)
@@ -25,7 +25,7 @@ steps:
     command: 'test'
     projects: '**/dotnetcore-tests/dotnetcore-tests.csproj'
     publishTestResults: true
-    arguments: '–configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
 
 - task: PublishCodeCoverageResults@1
   inputs:
