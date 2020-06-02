@@ -20,15 +20,21 @@ steps:
 #   inputs:
 #     command: 'build'
 
+- script: |
+    dotnet tool install dotnet-reportgenerator-globaltool --tool-path . 
+    ./reportgenerator "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
+  condition: eq( variables['Agent.OS'], 'Linux' )
+  displayName: Run Reportgenerator on Linux
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
     projects: '**/dotnetcore-tests/dotnetcore-tests.csproj'
     publishTestResults: true
-    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
 
 - task: PublishCodeCoverageResults@1
   inputs:
-    #codeCoverageTool: 'Cobertura'
-    summaryFileLocation: 
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/*cobertura.xml'
     #pathToSources: '(Build.SourcesDirectory)/TestResults/Coverage'
