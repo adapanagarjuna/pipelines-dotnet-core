@@ -20,15 +20,16 @@ steps:
 #   inputs:
 #     command: 'build'
 
-# - script: |
-#     dotnet test --logger trx --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
-#   displayName: 'dotnet test'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    projects: '**/dotnetcore-tests/dotnetcore-tests.csproj'
-    publishTestResults: true
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+- script: |
+    dotnet test --logger trx --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+  displayName: 'dotnet test'
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'test'
+#     projects: '**/dotnetcore-tests/dotnetcore-tests.csproj'
+#     publishTestResults: true
+#     arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
 
 - script: |
     dotnet tool install dotnet-reportgenerator-globaltool --tool-path . 
