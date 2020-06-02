@@ -44,9 +44,13 @@ steps:
 #   condition: eq( variables['Agent.OS'], 'Windows_NT' )
 #   displayName: Run Reportgenerator on Windows
 
+- task: reportgenerator@4
+  inputs:
+    reports: '**/coverage.cobertura.xml'
+    targetdir: 'CoverageReport'
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/*cobertura.xml'
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
     #pathToSources: '(Build.SourcesDirectory)/TestResults/Coverage'
